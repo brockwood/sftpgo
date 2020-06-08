@@ -10,11 +10,17 @@ import (
 	"strings"
 	"time"
 
+	"github.com/drakkan/sftpgo/logger"
 	"github.com/eikenb/pipeat"
 	"github.com/pkg/sftp"
-
-	"github.com/drakkan/sftpgo/logger"
 )
+
+type TargetFile interface {
+	ReadAt([]byte, int64) (int, error)
+	WriteAt([]byte, int64) (int, error)
+	Close() error
+	Name() string
+}
 
 // Fs defines the interface for filesystem backends
 type Fs interface {
@@ -22,8 +28,8 @@ type Fs interface {
 	ConnectionID() string
 	Stat(name string) (os.FileInfo, error)
 	Lstat(name string) (os.FileInfo, error)
-	Open(name string) (*os.File, *pipeat.PipeReaderAt, func(), error)
-	Create(name string, flag int) (*os.File, *PipeWriter, func(), error)
+	Open(name string) (TargetFile, *pipeat.PipeReaderAt, func(), error)
+	Create(name string, flag int) (TargetFile, *PipeWriter, func(), error)
 	Rename(source, target string) error
 	Remove(name string, isDir bool) error
 	Mkdir(name string) error

@@ -1060,11 +1060,13 @@ components:
             - 0
             - 1
             - 2
+            - 3
           description: >
             Providers:
               * `0` - local filesystem
               * `1` - S3 Compatible Object Storage
               * `2` - Google Cloud Storage
+              * `3` - SFTP
         s3config:
           $ref: '#/components/schemas/S3Config'
         gcsconfig:

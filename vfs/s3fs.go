@@ -161,7 +161,7 @@ func (fs S3Fs) Lstat(name string) (os.FileInfo, error) {
 }
 
 // Open opens the named file for reading
-func (fs S3Fs) Open(name string) (*os.File, *pipeat.PipeReaderAt, func(), error) {
+func (fs S3Fs) Open(name string) (TargetFile, *pipeat.PipeReaderAt, func(), error) {
 	r, w, err := pipeat.AsyncWriterPipeInDir(fs.localTempDir)
 	if err != nil {
 		return nil, nil, nil, err
@@ -183,7 +183,7 @@ func (fs S3Fs) Open(name string) (*os.File, *pipeat.PipeReaderAt, func(), error)
 }
 
 // Create creates or opens the named file for writing
-func (fs S3Fs) Create(name string, flag int) (*os.File, *PipeWriter, func(), error) {
+func (fs S3Fs) Create(name string, flag int) (TargetFile, *PipeWriter, func(), error) {
 	r, w, err := pipeat.PipeInDir(fs.localTempDir)
 	if err != nil {
 		return nil, nil, nil, err

@@ -28,7 +28,7 @@ var (
 // Transfer contains the transfer details for an upload or a download.
 // It implements the io Reader and Writer interface to handle files downloads and uploads
 type Transfer struct {
-	file                *os.File
+	file                vfs.TargetFile
 	writerAt            *vfs.PipeWriter
 	readerAt            *pipeat.PipeReaderAt
 	cancelFn            func()

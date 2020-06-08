@@ -161,6 +161,10 @@ func (u *User) GetFilesystem(connectionID string) (vfs.Fs, error) {
 		config := u.FsConfig.GCSConfig
 		config.CredentialFile = u.getGCSCredentialsFilePath()
 		return vfs.NewGCSFs(connectionID, u.GetHomeDir(), config)
+	} else if u.FsConfig.Provider == 3 {
+		config := u.FsConfig.GCSConfig
+		config.CredentialFile = u.getGCSCredentialsFilePath()
+		return vfs.NewSftpFs(connectionID, u.GetHomeDir(), u.VirtualFolders), nil
 	}
 	return vfs.NewOsFs(connectionID, u.GetHomeDir(), u.VirtualFolders), nil
 }
